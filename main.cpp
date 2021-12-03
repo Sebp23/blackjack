@@ -1,8 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <random>
-#include <chrono>
+#include <logic.hpp>
+
 
 class Card {
   public:
@@ -41,19 +38,19 @@ struct Deck {
       
     }
 
-    cardDeck = ShuffleDeck(cardDeck);
+    //cardDeck = ShuffleDeck(cardDeck);
   }
 
-  std::vector<Card> ShuffleDeck(std::vector<Card> deckToBeShuffled) {
+  /*std::vector<Card>*/ void ShuffleDeck() { //std::vector<Card> deckToBeShuffled) {
 
     // get a time-based seed for the random shuffling of the card deck
     auto seedForRandom = std::chrono::system_clock::now().time_since_epoch().count();
 
-    std::shuffle(deckToBeShuffled.begin(), deckToBeShuffled.end(), std::default_random_engine(seedForRandom));
+    std::shuffle(cardDeck.begin(), cardDeck.end(), std::default_random_engine(seedForRandom));
 
-    std::vector<Card> shuffledDeck = deckToBeShuffled;
+    //std::vector<Card> shuffledDeck = deckToBeShuffled;
 
-    return shuffledDeck;
+    //return shuffledDeck;
   }
 
   Card Deal() {
@@ -87,10 +84,10 @@ struct Player {
   }
 };
 
+GameOutcome Game() {
 
-int main() {  
-  
   Deck test = Deck();
+  test.ShuffleDeck();
 
   for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
     std::cout << "Current Deck: " << it->cardValue << std::endl;
@@ -104,6 +101,30 @@ int main() {
   for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
     std::cout << "Current Deck: " << it->cardValue << std::endl;
   }
+  
+
+  return WIN;
+}
+
+
+int main() {  
+  
+  Game();
+
+  // Deck test = Deck();
+
+  // for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
+  //   std::cout << "Current Deck: " << it->cardValue << std::endl;
+  // }
+
+  // Dealer dealer = Dealer(test);
+  // for (auto it = dealer.dealerHand.begin(); it != dealer.dealerHand.end(); it++) {
+  //   std::cout << "Dealer Hand: " << it->cardValue << std::endl;
+  // }
+  
+  // for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
+  //   std::cout << "Current Deck: " << it->cardValue << std::endl;
+  // }
 
   // Player player = Player(test);
   // for (auto it = player.playerHand.begin(); it != player.playerHand.end(); it++) {
