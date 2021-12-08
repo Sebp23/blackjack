@@ -13,14 +13,14 @@ class Card {
 
 struct Deck {
 
-  std::vector<Card> cardDeck = std::vector<Card>();
+  std::vector<Card> *cardDeck = new std::vector<Card>();
   
   Deck() {
     
     int numberOfCardType = 0;
     int cardValue = 1;
 
-    while(cardDeck.size() < 52) {
+    while(cardDeck->size() < 52) {
       
       if (cardValue == 10) {
         numberOfCardType = 0;
@@ -32,7 +32,7 @@ struct Deck {
         numberOfCardType = 0;
       }
 
-      cardDeck.push_back(Card(cardValue));
+      cardDeck->push_back(Card(cardValue));
 
       numberOfCardType++;
       
@@ -46,7 +46,7 @@ struct Deck {
     // get a time-based seed for the random shuffling of the card deck
     auto seedForRandom = std::chrono::system_clock::now().time_since_epoch().count();
 
-    std::shuffle(cardDeck.begin(), cardDeck.end(), std::default_random_engine(seedForRandom));
+    std::shuffle(cardDeck->begin(), cardDeck->end(), std::default_random_engine(seedForRandom));
 
     //std::vector<Card> shuffledDeck = deckToBeShuffled;
 
@@ -55,8 +55,8 @@ struct Deck {
 
   Card Deal() {
 
-    Card cardToDeal = cardDeck.back();
-    cardDeck.erase(cardDeck.end()-1);
+    Card cardToDeal = cardDeck->back();
+    cardDeck->pop_back();
     
     return std::move(cardToDeal);
   }
@@ -86,19 +86,19 @@ struct Player {
 
 GameOutcome Game() {
 
-  Deck test = Deck();
-  test.ShuffleDeck();
+  Deck *test = new Deck();
+  test->ShuffleDeck();
 
-  for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
+  for (auto it = test->cardDeck->begin(); it != test->cardDeck->end(); it++) {
     std::cout << "Current Deck: " << it->cardValue << std::endl;
   }
 
-  Dealer dealer = Dealer(test);
+  Dealer dealer = Dealer(*test);
   for (auto it = dealer.dealerHand.begin(); it != dealer.dealerHand.end(); it++) {
     std::cout << "Dealer Hand: " << it->cardValue << std::endl;
   }
   
-  for (auto it = test.cardDeck.begin(); it != test.cardDeck.end(); it++) {
+  for (auto it = test->cardDeck->begin(); it != test->cardDeck->end(); it++) {
     std::cout << "Current Deck: " << it->cardValue << std::endl;
   }
   
