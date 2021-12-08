@@ -102,6 +102,15 @@ GameOutcome Game() {
     std::cout << "Current Deck: " << it->cardValue << std::endl;
   }
   
+  Player player = Player(*test);
+  for (auto it = player.playerHand.begin(); it != player.playerHand.end(); it++) {
+    std::cout << "Player Hand: " << it->cardValue << std::endl;
+  }
+  
+  for (auto it = test->cardDeck->begin(); it != test->cardDeck->end(); it++) {
+    std::cout << "Current Deck: " << it->cardValue << std::endl;
+  }
+  
 
   return WIN;
 }
