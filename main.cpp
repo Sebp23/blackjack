@@ -1,6 +1,5 @@
 #include <logic.hpp>
 
-
 class Card {
   public:
     int cardValue;
