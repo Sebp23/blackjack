@@ -5,7 +5,7 @@
 #include <random>
 #include <chrono>
 
-enum GameOutcome {WIN, LOSE};
+enum GameOutcome {LOSE, WIN};
 
 class Card;
 
@@ -14,3 +14,5 @@ struct Deck;
 struct Dealer;
 
 struct Player;
+
+struct PlayGame;
