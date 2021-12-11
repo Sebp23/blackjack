@@ -39,6 +39,11 @@ struct Deck {
       numberOfCardType++;
       
     }
+    
+  }
+
+  ~Deck() {
+    
   }
 
   void ShuffleDeck() {
@@ -271,48 +276,63 @@ struct PlayGame {
 class LastCardInDeckTestHarness : public AbstractTestHarness {
 private:
 
-  Deck d = Deck();
-  Card c = d.Deal();
+  Deck *d = new Deck();
+  Card c = d->Deal();
 
 public:
   LastCardInDeckTestHarness() {
     register_test_func("Testing Deck",
                        [this]() -> void { assert_equal(10, c.cardValue); });
+    CleanTestOne();
+  }
+
+  void CleanTestOne() {
+    delete d;
   }
 };
 
-// class FirstCardInDeckTestHarness : public AbstractTestHarness {
-// private:
+class FirstCardInDeckTestHarness : public AbstractTestHarness {
+private:
 
-//   Deck d1 = Deck();
-//   Card c1 = d1.Deal();
+  Deck *d1 = new Deck();
+  Card c1 = d1->Deal();
 
-// public:
-//   FirstCardInDeckTestHarness() {
-//     register_test_func("Testing Deck",
-//                        [this]() -> void { assert_equal(1, d1.cardDeck->front().cardValue); });
-//   }
-// };
+public:
+  FirstCardInDeckTestHarness() {
+    register_test_func("Testing Deck",
+                       [this]() -> void { assert_equal(1, d1->cardDeck->front().cardValue); });
+    CleanTestTwo();
+  }
 
-// class StartingPlayerHandTestHarness : public AbstractTestHarness {
-// private:
+  void CleanTestTwo() {
+    delete d1;
+  }
+};
 
-//   Deck d2 = Deck();
-//   Dealer dealer = Dealer(d2);
+class StartingPlayerHandTestHarness : public AbstractTestHarness {
+private:
 
-// public:
-//   StartingPlayerHandTestHarness() {
-//     register_test_func("Testing Number of Cards in Starting Hand",
-//                        [this]() -> void { assert_equal(2, (int)dealer.dealerHand.size()); });
-//   }
-// };
+  Deck *d2 = new Deck();
+  Dealer dealer = Dealer(*d2);
+
+public:
+  StartingPlayerHandTestHarness() {
+    register_test_func("Testing Number of Cards in Starting Hand",
+                       [this]() -> void { assert_equal(2, (int)dealer.dealerHand.size()); });
+    CleanTestThree();
+  }
+
+  void CleanTestThree() {
+    delete d2;
+  }
+};
 
 class GlobalTestManager : public TestManager {
 public:
   GlobalTestManager() { 
       add_test("Last Card in Deck Test", LastCardInDeckTestHarness());
-      //add_test("First Card in Deck Test", FirstCardInDeckTestHarness());
-      //add_test("Number of Cards In Dealer Start Hand", StartingPlayerHandTestHarness());
+      add_test("Number of Cards In Dealer Start Hand", StartingPlayerHandTestHarness());
+      add_test("First Card in Deck Test", FirstCardInDeckTestHarness());
     }
 };
 

@@ -39,6 +39,10 @@ struct Deck {
     }
   }
 
+  ~Deck() {
+    
+  }
+
   void ShuffleDeck() {
 
     // get a time-based seed for the random shuffling of the card deck
